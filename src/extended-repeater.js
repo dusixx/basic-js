@@ -16,7 +16,7 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 const repeat = (str = '', times = 1, sep = '') =>
-  Array.from({ length: times }).fill(String(str)).join(sep);
+  Array(times).fill(`${str}`).join(sep);
 
 function repeater(str, options) {
   const {

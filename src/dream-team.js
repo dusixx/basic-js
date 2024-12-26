@@ -13,12 +13,15 @@ const { NotImplementedError } = require('../extensions/index.js');
  * createDreamTeam(['Olivia', 1111, 'Lily', 'Oscar', true, null]) => 'LOO'
  *
  */
+const isValidName = (name) =>
+  typeof name === 'string' && /^\s*[a-z]/i.test(name);
+
 function createDreamTeam(members) {
   if (!Array.isArray(members)) {
     return false;
   }
   const letters = members.reduce((res, name) => {
-    if (typeof name === 'string' && /^\s*[a-z]/i.test(name)) {
+    if (isValidName(name)) {
       res.push(name.trim().toUpperCase()[0]);
     }
     return res;

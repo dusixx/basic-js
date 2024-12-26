@@ -15,31 +15,30 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function transform(/*arr*/) {
   throw new NotImplementedError('Not implemented');
+  // if (!Array.isArray(arr)) {
+  //   throw TypeError("'arr' parameter must be an instance of the Array!");
+  // }
+  // const mod = {
+  //   doubleNext: '--double-next',
+  //   doublePrev: '--double-prev',
+  //   discardNext: '--discard-next',
+  //   discardPrev: '--discard-prev',
+  // };
+  // const res = [...arr];
 
-  if (!Array.isArray(arr)) {
-    throw TypeError("'arr' parameter must be an instance of the Array!");
-  }
-  const mod = {
-    doubleNext: '--double-next',
-    doublePrev: '--double-prev',
-    discardNext: '--discard-next',
-    discardPrev: '--discard-prev',
-  };
-  const res = [...arr];
+  // res.forEach((el, i, arr) => {
+  //   if (el === mod.discardNext) {
+  //     arr.splice(i, 2);
+  //   } else if (el === mod.discardPrev) {
+  //     arr.splice(i - 1, 2);
+  //   } else if (el === mod.doubleNext) {
+  //     arr[i] = arr[i + 1];
+  //   } else if (el === mod.doublePrev) {
+  //     arr[i] = arr[i - 1];
+  //   }
+  // });
 
-  res.forEach((el, i, arr) => {
-    if (el === mod.discardNext) {
-      arr.splice(i, 2);
-    } else if (el === mod.discardPrev) {
-      arr.splice(i - 1, 2);
-    } else if (el === mod.doubleNext) {
-      arr[i] = arr[i + 1];
-    } else if (el === mod.doublePrev) {
-      arr[i] = arr[i - 1];
-    }
-  });
-
-  return res;
+  // return res;
 }
 
 module.exports = {

@@ -16,23 +16,23 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 class VigenereCipheringMachine {
   static #alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  #direct;
+  direct;
 
   constructor(direct = true) {
-    this.#direct = direct;
+    this.direct = direct;
   }
 
-  #scaleKey(phrase, key) {
-    const phraseAlphaLen = phrase.replace(/[^a-z]/gi, '').length;
+  #getScaledKey(phrase, key) {
+    const phraseAlphaLen = phrase.match(/[a-z]/gi)?.length;
     return key.padEnd(phraseAlphaLen, key);
   }
 
-  #process(phrase, key, encrypt = true) {
+  #translate(phrase, key, encrypt = true) {
     if (!phrase || !key) {
       throw TypeError('Incorrect arguments!');
     }
     const alpha = VigenereCipheringMachine.#alpha;
-    const scaledKey = this.#scaleKey(phrase, key);
+    const scaledKey = this.#getScaledKey(phrase, key);
     let j = 0;
 
     const res = [...phrase].map((ch) => {
@@ -45,20 +45,20 @@ class VigenereCipheringMachine {
 
       const idx = encrypt
         ? (phraseCharIdx + keyCharIdx) % alpha.length
-        : (phraseCharIdx + alpha.length - keyCharIdx) % alpha.length;
+        : (phraseCharIdx - keyCharIdx + alpha.length) % alpha.length;
 
       return alpha[idx];
     });
 
-    return this.#direct ? res.join('') : res.reverse().join('');
+    return this.direct ? res.join('') : res.reverse().join('');
   }
 
   encrypt(phrase, key) {
-    return this.#process(phrase, key);
+    return this.#translate(phrase, key);
   }
 
   decrypt(cipher, key) {
-    return this.#process(cipher, key, false);
+    return this.#translate(cipher, key, false);
   }
 }
 

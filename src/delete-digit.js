@@ -12,7 +12,7 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function deleteDigit(n) {
-  const digits = [...String(n)];
+  const digits = [...`${n}`];
 
   const numbers = digits.reduce((res, _, i) => {
     const d = [...digits];
