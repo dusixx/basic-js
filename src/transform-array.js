@@ -13,32 +13,34 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  *
  */
-function transform(/*arr*/) {
-  throw new NotImplementedError('Not implemented');
-  // if (!Array.isArray(arr)) {
-  //   throw TypeError("'arr' parameter must be an instance of the Array!");
-  // }
-  // const mod = {
-  //   doubleNext: '--double-next',
-  //   doublePrev: '--double-prev',
-  //   discardNext: '--discard-next',
-  //   discardPrev: '--discard-prev',
-  // };
-  // const res = [...arr];
+function transform(arr) {
+  if (!Array.isArray(arr)) {
+    throw TypeError("'arr' parameter must be an instance of the Array!");
+  }
+  const res = [...arr];
 
-  // res.forEach((el, i, arr) => {
-  //   if (el === mod.discardNext) {
-  //     arr.splice(i, 2);
-  //   } else if (el === mod.discardPrev) {
-  //     arr.splice(i - 1, 2);
-  //   } else if (el === mod.doubleNext) {
-  //     arr[i] = arr[i + 1];
-  //   } else if (el === mod.doublePrev) {
-  //     arr[i] = arr[i - 1];
-  //   }
-  // });
+  for (let i = 0; i < res.length; i += 1) {
+    switch (res[i]) {
+      case '--discard-prev':
+        res[i] = res[i - 1] = null;
+        break;
 
-  // return res;
+      case '--discard-next':
+        res[i] = res[i + 1] = null;
+        i += 1;
+        break;
+
+      case '--double-prev':
+        res[i] = res[i - 1];
+        break;
+
+      case '--double-next':
+        res[i] = res[i + 1];
+        i += 1;
+    }
+  }
+
+  return res.filter((el) => el != null);
 }
 
 module.exports = {
