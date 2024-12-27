@@ -16,13 +16,14 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function renameFiles(names) {
-  const fnSet = new Set();
+  const unique = new Set();
 
-  return names.map((fn) => {
-    for (let k = 1, name = fn.toLowerCase(); fnSet.has(fn); k += 1) {
+  return names.map((name) => {
+    let fn = name;
+    for (let k = 1; unique.has(fn.toLowerCase()); k += 1) {
       fn = `${name}(${k})`;
     }
-    fnSet.add(fn);
+    unique.add(fn.toLowerCase());
 
     return fn;
   });
