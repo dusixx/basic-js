@@ -17,30 +17,34 @@ function transform(arr) {
   if (!Array.isArray(arr)) {
     throw TypeError("'arr' parameter must be an instance of the Array!");
   }
-  const res = [...arr];
+  const res = [];
 
-  for (let i = 0; i < res.length; i += 1) {
-    switch (res[i]) {
-      case '--discard-prev':
-        res[i] = res[i - 1] = null;
-        break;
-
-      case '--discard-next':
-        res[i] = res[i + 1] = null;
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i] === '--discard-prev') {
+      res.pop();
+      //
+    } else if (arr[i] === '--discard-next') {
+      i += 1;
+      if (/^--(discard|double)-prev$/i.test(arr[i + 1])) {
         i += 1;
-        break;
-
-      case '--double-prev':
-        res[i] = res[i - 1];
-        break;
-
-      case '--double-next':
-        res[i] = res[i + 1];
-        i += 1;
+      }
+      //
+    } else if (arr[i] === '--double-next') {
+      i += 1;
+      if (i < arr.length) {
+        res.push(arr[i], arr[i]);
+      }
+      //
+    } else if (arr[i] === '--double-prev') {
+      if (i - 1 >= 0) {
+        res.push(arr[i - 1]);
+      }
+      //
+    } else {
+      res.push(arr[i]);
     }
   }
-
-  return res.filter((el) => el != null);
+  return res;
 }
 
 module.exports = {
