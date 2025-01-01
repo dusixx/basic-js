@@ -13,14 +13,11 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function getCommonCharacterCount(s1, s2) {
   const map = {};
-  const longer = s1.length > s2.length ? s1 : s2;
-  const shorter = s1 === longer ? s2 : s1;
 
-  for (let ch of longer) {
+  for (let ch of s1) {
     map[ch] = (map[ch] ?? 0) + 1;
   }
-
-  return [...shorter].reduce((res, ch) => {
+  return [...s2].reduce((res, ch) => {
     if (map[ch]) {
       map[ch] -= 1;
       res += 1;
