@@ -24,21 +24,20 @@ const { NotImplementedError } = require('../extensions/index.js');
  * ]
  */
 function minesweeper(matrix) {
-  const mines = {};
-  const setup = matrix.map((row, i) =>
-    row.map((b, j) => (mines[[i, j]] = Number(b)))
-  );
-  const setNeighbors = (i, j) => {
-    for (let n = 0, x = i - 1; n < 3; n += 1, x += 1) {
-      for (let m = 0, y = j - 1; m < 3; m += 1, y += 1) {
-        if (mines[[x, y]] === 0) {
-          setup[x][y] += 1;
+  const setup = matrix.map((row) => row.map(Number));
+
+  const setNeighbors = (arr, i, j) => {
+    for (let x = i - 1, n = x + 3; x < n; x += 1) {
+      for (let y = j - 1, m = y + 3; y < m; y += 1) {
+        // strict equality to ignore 'undefined' when x|y is invalid
+        if (matrix[x]?.[y] === false) {
+          arr[x][y] += 1;
         }
       }
     }
   };
   return matrix.reduce((res, row, i) => {
-    row.forEach((b, j) => b && setNeighbors(i, j));
+    row.forEach((b, j) => b && setNeighbors(res, i, j));
     return res;
   }, setup);
 }
