@@ -24,14 +24,16 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function getDNSStats(domains) {
   return domains.reduce((stats, url) => {
-    url.split('.').forEach((_, i, arr) => {
-      const key = `.${arr.slice(i).reverse().join('.')}`;
-      const searchStr = `${i ? '.' : ''}${arr.slice(i).join('.')}`;
-
-      if (url.includes(searchStr)) {
+    url
+      .split('.')
+      .reverse()
+      .reduce((key, part) => {
+        key += `.${part}`;
         stats[key] = (stats[key] ?? 0) + 1;
-      }
-    });
+
+        return key;
+      }, '');
+
     return stats;
   }, {});
 }
